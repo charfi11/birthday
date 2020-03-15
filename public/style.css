@@ -1,0 +1,543 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Fredoka One';
+  src: url('Fredoka_One/FredokaOne-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Bellota';
+  src: url('Bellota_Text/BellotaText-Regular.ttf');
+}
+
+body {
+  background: lightgray;
+  background-image: url('b.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Bellota', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fa-user {
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.profil {
+  display: none;
+  position: absolute;
+  left: 0%;
+  top: 7%;
+  z-index: 9999;
+  background: white;
+  color: black;
+  width: 20%;
+  padding: 1%;
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
+  box-shadow: rgb(0, 0, 0, 0.4);
+  text-align: center;
+  animation-name: fadeInLeft;
+  animation-duration: 500ms;
+}
+
+.formhome {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  align-items: center;
+  width: 50%;
+  background: white;
+  padding: 1%;
+  border-radius: 2em;
+  box-shadow: -1px 1px 2px 2px rgb(0, 0, 0, 0.1);
+  animation-name: fadeInDown;
+  animation-duration: 500ms;
+}
+
+.formhome input {
+  width: 80%;
+}
+
+i.fa-sign-out-alt {
+  font-size: 1.2em;
+  cursor: pointer;
+  animation-name: fadeInDown;
+  animation-duration: 800ms;
+}
+
+.blockbirthday {
+  display: none;
+  width: 100%;
+}
+
+.fa-times {
+  cursor: pointer;
+}
+
+.btnform {
+  width: 50%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  border: solid 2px black;
+  border-radius: 2em;
+  padding: 3%;
+  color: black;
+  transition: 400ms;
+}
+
+.btn1 {
+  border-radius: 2em;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 30%;
+  animation-name: pulse;
+  animation-duration: 700ms;
+  font-weight: bold;
+  color: white !important;
+  padding: 2% !important;
+  font-size: 1.5em;
+  border: solid 2px white !important;
+  box-shadow: -1px 2px 2px 2px rgb(0, 0, 0, 0.4);
+  color: white;
+  text-shadow: 2px 5px 4px black;
+  transition: 400ms;
+}
+
+.btn1:hover {
+  box-shadow: none;
+  text-shadow: none;
+  transition: 400ms;
+  border-color: pink !important;
+  color: white;
+  background: pink;
+}
+
+.btn2:hover {
+  box-shadow: none;
+  text-shadow: none;
+  transition: 400ms;
+  border-color: pink !important;
+  color: white;
+  background: pink;
+}
+
+.btn2 {
+  transition: 400ms;
+  border-radius: 2em;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 30%;
+  animation-name: pulse;
+  animation-delay: 300ms;
+  animation-duration: 800ms;
+  font-weight: bold;
+  color: white !important;
+  padding: 2% !important;
+  font-size: 1.5em;
+  border: solid 2px white !important;
+  box-shadow: -1px 2px 2px 2px rgb(0, 0, 0, 0.4);
+  color: white;
+  text-shadow: 2px 5px 4px black;
+}
+
+form h3 {
+  font-family: 'Fredoka One', cursive;
+  margin-top: 5%;
+}
+
+.btnform:hover {
+  transition: 400ms;
+  border: solid 2px pink;
+  color: white;
+  background: pink;
+}
+
+#fbirth {
+  display: none;
+  width: 100%;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+input {
+  margin-top: 6%;
+  width: 100%;
+  height: calc(2em + 0.75rem + 2px);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 0;
+  border-bottom: solid black 2px;
+  background-color: white !important;
+}
+
+input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: pink !important;
+  background-color: transparent !important;
+}
+
+input:after {
+  background-color: white !important;
+  color: black !important;
+}
+
+.blockHome {
+  width: 100%;
+}
+
+.blocktitle {
+  margin: auto;
+}
+
+.entete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5%;
+  animation-name: fadeInDown;
+  animation-duration: 900ms;
+  font-family: 'Fredoka One', cursive;
+}
+
+.title {
+  font-size: 7em !important;
+  color: white;
+  text-shadow: 2px 5px 10px black;
+}
+
+.subtitle {
+  font-size: 7em !important;
+  color: white;
+  text-shadow: 2px 5px 10px black;
+}
+
+i.fa-birthday-cake {
+  cursor: pointer;
+  background: pink;
+  color: white;
+  font-size: 1.5em;
+  padding: 2%;
+  width: 7%;
+  text-align: center;
+  border-radius: 2em;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  transition: 200ms;
+  box-shadow: -1px 1px 2px 2px rgb(0, 0, 0, 0.1);
+  animation-name: fadeInDown;
+  animation-duration: 500ms;
+}
+
+#divM {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-content {
+  padding: 5%;
+}
+
+#divMore {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  background-color: white;
+  border-radius: 2em;
+  padding: 2%;
+  margin-top: 5%;
+  color: black;
+  text-align: center;
+}
+
+i.fa-birthday-cake:hover {
+  transition: 200ms;
+  transform: scale(1.1);
+  box-shadow: none;
+}
+
+#updatefr {
+  display: none;
+  width: 100%;
+}
+
+.none {
+  display: none;
+}
+
+#formUpdate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  background: white;
+  padding: 1%;
+  border-radius: 2em;
+  box-shadow: -1px 1px 2px 2px rgb(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 2%;
+}
+
+.update {
+  cursor: pointer;
+}
+
+.appendList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 80%;
+  color: white;
+  background: pink;
+  border-radius: 2em;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.appendList h2 {
+  font-family: 'Fredoka One', cursive;
+  margin-top: 5%;
+}
+
+.bl {
+  width: 90%;
+  margin-bottom: 5%;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+p {
+  margin: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  animation-name: flipInX;
+  animation-duration: 1s;
+  margin-top: 2%;
+  color: black;
+  padding: 1%;
+  border-radius: 3em;
+  box-shadow: -1px 1px 2px 2px rgb(0, 0, 0, 0.1);
+  transition: 300ms;
+}
+
+li:hover {
+  transition: 300ms;
+  transform: scale(1.03);
+  box-shadow: none;
+}
+
+li p {
+  font-weight: bold;
+}
+
+.delete {
+  cursor: pointer;
+}
+
+.blockcrud {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 5%;
+  width: 10%;
+}
+
+@keyframes pulse {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.05, 1.05, 1.05);
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.pulse {
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
+}
+
+@keyframes bounce {
+
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -30px, 0);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    -webkit-transform: translate3d(0, -15px, 0);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(0, -4px, 0);
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+.bounce {
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
+  -webkit-transform-origin: center bottom;
+  transform-origin: center bottom;
+}
+
+@keyframes flipInX {
+  from {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+
+.flipInX {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInX;
+  animation-name: flipInX;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+  animation-name: fadeInRight;
+  animation-duration: 500ms;
+}

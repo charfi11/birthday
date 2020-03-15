@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="bootstrap-4.4.1-dist/css/bootstrap.css">
+  <link rel="stylesheet" href="fontawesome-free-5.12.1-web/fontawesome-free-5.12.1-web/css/all.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="jquery/jquery-3.4.1.min.js"></script>
+  <script src="bootstrap-4.4.1-dist/js/bootstrap.js"></script>
+  <title>HappyBirthday!</title>
+</head>
+
+<body>
+  <div id="blocknav" style="width: 100%;">
+    <div class="d-flex justify-content-between" style="width: 100%;">
+      <i class="fas fa-user mt-2 ml-3 text-white" id="userp"></i>
+      <i class="fas fa-birthday-cake" id="birth"></i>
+      <div class="mt-2 mr-3" id="logout">
+        <i class="fas fa-sign-out-alt text-white"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="profil" id="profile">
+    <h5 class="font-weight-bold mb-2 mt-2">Votre profil</h5>
+    <p class="mt-3 mb-2" id="profilmail"></p>
+  </div>
+
+  <div class="blockHome" id="blockH">
+    <div class="entete">
+      <h1 class="title">Happy</h1>
+      <h2 class="subtitle">Birhtday!</h2>
+    </div>
+    <div class="d-flex flex-wrap justify-content-center" style="width: 100%;">
+      <button class="btn btn1 mr-3" data-toggle="modal" data-target="#exampleModalCenter">S'inscrire</button>
+      <button class="btn btn2 ml-3" data-toggle="modal" data-target="#exampleModalCenter1">Se connecter</button>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form id='signupForm'>
+            <div class="d-flex justify-content-between">
+              <h4>S'inscrire</h4>
+              <button type="button" class="close mb-4" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="d-flex flex-column mt-2 mb-3" style="width: 100%;">
+              <input type="mail" id="mail" placeholder="Email" required>
+              <input type="password" id="password" placeholder="Password" required>
+              <button class="btn btn-info mt-5 mb-3" style="width: 30%;">Valider</button>
+            </div>
+            <p class="error"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form id="loginForm">
+            <div class="d-flex justify-content-between">
+              <h4>Se connecter</h4>
+              <button type="button" class="close mb-4" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="d-flex flex-column mt-2 mb-3" style="width: 100%;">
+              <input type="mail" placeholder="Email" id="mailLogin" required>
+              <input type="password" placeholder="Password" id="passwordLogin" required>
+              <button class="btn btn-info mt-5 mb-3" style="width: 30%;">Valider</button>
+            </div>
+            <p class="error"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="blockbirthday" id="blockB">
+    <div id="fbirth">
+      <form id="formBirthday" class="formhome">
+        <div class="d-flex justify-content-center blocktitle" style="width: 100%;">
+          <h3>Ajouter un anniversaire</h3><i class="fas fa-times ml-5 mt-3" id="close"></i>
+        </div>
+        <input type="text" name="name" placeholder="Nom/Prénom" required>
+        <input type="date" name="date" required>
+        <button class="btn btnform">Valider</button>
+        <input type="hidden" name="id" id="hid">
+      </form>
+    </div>
+
+    <div id="updatefr">
+      <form id="formUpdate" class="upform formhome">
+        <div class="d-flex justify-content-center blocktitle" style="width: 90%;">
+          <h3>Modifier un anniversaire</h3><i class="fas fa-times ml-3 mt-3" id="close2"></i>
+        </div>
+        <input type="text" name="name" placeholder="Nom/Prénom" required>
+        <input type="date" name="date" required>
+        <button class="btn btnform">Valider</button>
+        <input type="hidden" name="id" id="hid1">
+      </form>
+    </div>
+
+    <div class="appendList">
+      <h2>Birthdays</h2>
+      <div id="divM"></div>
+      <ul id="list" class="bl">
+
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBUrp527oh57qAol285YZqvhmjfB_yFcmc",
+      authDomain: "birthday-b60f0.firebaseapp.com",
+      databaseURL: "https://birthday-b60f0.firebaseio.com",
+      projectId: "birthday-b60f0",
+      storageBucket: "birthday-b60f0.appspot.com",
+      messagingSenderId: "939258080690",
+      appId: "1:939258080690:web:93e5192974344eb18f88ab",
+      measurementId: "G-QH5SCPQ77Z"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+  <script src="app.js"></script>
+  <script src="home.js"></script>
+</body>
+
+</html>
