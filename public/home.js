@@ -7,6 +7,7 @@ auth.onAuthStateChanged(user => {
         if (user != null) {
             document.getElementById('profilmail').innerHTML = user.email;
         };
+
         const blockB = document.getElementById('blockB');
         const blockH = document.getElementById('blockH');
         const fb = document.getElementById('formBirthday');
@@ -23,6 +24,27 @@ auth.onAuthStateChanged(user => {
         blockB.style.display = 'block';
         nav.style.display = 'block';
 
+        // form for send data
+        fb.addEventListener("submit", (event) => {
+            event.preventDefault();
+            var id = Math.random();
+            var data = {
+                name: fb.name.value,
+                date: fb.date.value,
+                userid: fb.userid.value,
+                id: id,
+            };
+            divM.style.display = 'none';
+            db.collection('one').add(data);
+            fbdiv.style.display = 'none';
+            birth.style.display = 'block';
+            db.collection('one').where('userid', '==', user.uid).orderBy('name').get().then((snapshot => {
+                snapshot.docs.forEach(childSnapshot => {
+                    renderBirthday(childSnapshot);
+                });
+            }));
+        });
+        
         //loop for read data
         db.collection('one').where('userid', '==', user.uid).orderBy('name').get().then((snapshot => {
             if (snapshot.docs.length >= 1) {
@@ -102,9 +124,27 @@ loginForm.addEventListener('submit', (event) => {
 });
 
 var userp = document.getElementById('userp');
+var back = document.getElementById('back');
+var closeu = document.getElementById('closeuser');
 
 userp.addEventListener('click', (event) => {
- var profil = document.getElementById('profile');
+    var profil = document.getElementById('profile');
+    var back = document.getElementById('back');
 
- profil.style.display = 'block';
+    profil.style.display = 'block';
+    back.style.display = 'block';
+});
+
+back.addEventListener('click', (event) => {
+    var profil = document.getElementById('profile');
+
+    profil.style.display = 'none';
+    back.style.display = 'none';
+});
+
+closeu.addEventListener('click', (event) => {
+    var profil = document.getElementById('profile');
+
+    profil.style.display = 'none';
+    back.style.display = 'none';
 });
