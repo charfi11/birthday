@@ -39,6 +39,54 @@ body {
   z-index: 99;
 }
 
+.userupdate {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  z-index: 9999;
+  animation-name: fadeInUp;
+  animation-duration: 800ms;
+  text-align: center;
+}
+
+#updatemail {
+  width: 60%;
+  margin: auto;
+}
+
+#updatemail input {
+  margin: 0!important;
+}
+
+#updatepassword input {
+  margin: 0!important;
+}
+
+#updatepassword {
+  width: 60%;
+  margin: auto;
+}
+
+#listnamemodal {
+  width: 100%;
+}
+
+#rappel {
+  display: none;
+}
+
+.listn {
+  width: 20%;
+  margin-left: 2%;
+}
+
+.present {
+  border: dotted 4px #dc3545;
+  padding: 4%;
+}
+
 .fa-user {
   font-size: 1.2em;
   cursor: pointer;
@@ -554,4 +602,34 @@ li p {
   -webkit-animation-name: fadeInRight;
   animation-name: fadeInRight;
   animation-duration: 500ms;
+}
+
+@keyframes shake {
+  from,
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.shake {
+  -webkit-animation-name: shake;
+  animation-name: shake;
 }

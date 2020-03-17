@@ -8,6 +8,26 @@ auth.onAuthStateChanged(user => {
             document.getElementById('profilmail').innerHTML = user.email;
         };
 
+        //user form email update
+        document.getElementById('oldmail').textContent = "Votre ancien email: " + user.email;
+        const formMail = document.getElementById('updatemail');
+        formMail.addEventListener('submit', (event) => {
+            event.preventDefault();
+        var data = formMail.mail.value;
+            user.updateEmail(data).then(function () {
+                var credential = firebase.auth.EmailAuthProvider.credential(
+                    user.email,
+                    userProvidedPassword //can't find user password
+                );  
+                user.reauthenticateWithCredential(credential).then(function() {
+                  }).catch(function(error) {
+                    console.log(error)
+                  });
+            }).catch((error) => {
+                console.log(error);
+            });
+        });
+
         const blockB = document.getElementById('blockB');
         const blockH = document.getElementById('blockH');
         const fb = document.getElementById('formBirthday');
@@ -38,22 +58,61 @@ auth.onAuthStateChanged(user => {
             db.collection('one').add(data);
             fbdiv.style.display = 'none';
             birth.style.display = 'block';
-            db.collection('one').where('userid', '==', user.uid).orderBy('name').get().then((snapshot => {
-                snapshot.docs.forEach(childSnapshot => {
-                    renderBirthday(childSnapshot);
-                });
-            }));
         });
-        
+
+        //form for update data
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            var id = document.getElementById('hid1').getAttribute('id');
+
+            var name = form.name.value;
+            var date = form.date.value;
+            var data = {
+                name: name,
+                date: date
+            }
+            db.collection('one').doc(id).update(data);
+            var f = document.getElementById('updatefr');
+            f.style.display = 'none';
+        });
+
+        function dateCall(dateStr){
+        var d = new Date();
+                    var date = d.getDate();
+                    var month = ("0" + (d.getMonth() + 1)).slice(-2); 
+                    var dateStr = month + "-" + date;
+                    
+                    return dateStr;
+        }
+
         //loop for read data
         db.collection('one').where('userid', '==', user.uid).orderBy('name').get().then((snapshot => {
             if (snapshot.docs.length >= 1) {
+                document.getElementById('countb').textContent = "Vous avez enregistré "+snapshot.docs.length+" anniversaires";
                 const dm = document.getElementById('divMore');
                 if (dm != null) {
                     dm.remove();
                 }
+
                 snapshot.docs.forEach(childSnapshot => {
                     renderBirthday(childSnapshot);
+                    var tm = childSnapshot.cp.proto.fields.date.stringValue.slice(5);
+
+                    if(tm == dateCall()){
+                    var id = childSnapshot.id;
+                    var ob = document.getElementById(id);
+                    var ln = document.getElementById('listnamemodal');
+                    var li = document.createElement('li');
+                    ln.appendChild(li);
+                    li.setAttribute('class', 'listn');
+
+                    li.textContent = childSnapshot.data().name;
+                    ob.style.background = '#FFD700';
+                    $('#modalbirthday').modal('show');
+                }
+                   else {
+                       console.log('er')
+                   }
                 });
             } else {
                 const createDm = document.createElement('div');
@@ -126,6 +185,8 @@ loginForm.addEventListener('submit', (event) => {
 var userp = document.getElementById('userp');
 var back = document.getElementById('back');
 var closeu = document.getElementById('closeuser');
+var usercog = document.getElementById('usercog');
+var closeuserup = document.getElementById('closeblockup')
 
 userp.addEventListener('click', (event) => {
     var profil = document.getElementById('profile');
@@ -147,4 +208,19 @@ closeu.addEventListener('click', (event) => {
 
     profil.style.display = 'none';
     back.style.display = 'none';
+});
+
+usercog.addEventListener('click', (event) => {
+    var profil = document.getElementById('profile');
+    var userblock = document.getElementById('userblockup');
+
+    userblock.style.display = 'block';
+    profil.style.display = 'none';
+    back.style.display = 'none';
+});
+
+closeuserup.addEventListener('click', (event) => {
+    var blockup = document.getElementById('userblockup');
+
+    blockup.style.display = 'none';
 });

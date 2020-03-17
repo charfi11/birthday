@@ -30,7 +30,7 @@ function renderBirthday(childSnapshot) {
     del.setAttribute('class', 'delete');
     up.setAttribute('class', 'update');
 
-    li.setAttribute('data-id', childSnapshot.id);
+    li.setAttribute('id', childSnapshot.id);
     pname.textContent = childSnapshot.data().name;
     pdate.textContent = childSnapshot.data().date;
 
@@ -47,7 +47,7 @@ function renderBirthday(childSnapshot) {
     //event to delete data
     del.addEventListener("click", (event) => {
         event.stopPropagation();
-        var id = event.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+        var id = event.target.parentElement.parentElement.parentElement.getAttribute('id');
         db.collection('one').doc(id).delete();
         event.target.parentElement.parentElement.parentElement.remove();
     });
@@ -55,13 +55,13 @@ function renderBirthday(childSnapshot) {
     //event to replace data in form
     up.addEventListener('click', (event) => {
         event.stopPropagation();
-        var id = event.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+        var id = event.target.parentElement.parentElement.parentElement.getAttribute('id');
         var parent = event.target.parentElement.parentElement.parentElement;
         var input = document.getElementById('hid1');
         fbdiv.style.display = 'none';
         birth.style.display = 'block';
         upd.style.display = 'block';
-        input.setAttribute('data-id', id);
+        input.setAttribute('id', id);
         form.name.value = parent.children[0].textContent;
         form.date.value = parent.children[1].textContent;
     });
@@ -69,7 +69,7 @@ function renderBirthday(childSnapshot) {
     //form for update data
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        var id = document.getElementById('hid1').getAttribute('data-id');
+        var id = document.getElementById('hid1').getAttribute('id');
         
         var name = form.name.value;
         var date = form.date.value;
