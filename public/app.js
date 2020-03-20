@@ -61,25 +61,26 @@ function renderBirthday(childSnapshot) {
         fbdiv.style.display = 'none';
         birth.style.display = 'block';
         upd.style.display = 'block';
-        input.setAttribute('id', id);
+        input.setAttribute('data-id', id);
         form.name.value = parent.children[0].textContent;
         form.date.value = parent.children[1].textContent;
-    });
-
-    //form for update data
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        var id = document.getElementById('hid1').getAttribute('id');
         
-        var name = form.name.value;
-        var date = form.date.value;
-        var data = {
-            name: name,
-            date: date
-        }
-        db.collection('one').doc(id).update(data);
-        var f = document.getElementById('updatefr');
-        f.style.display = 'none';
+        //form for update data
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            var name = form.name.value;
+            var date = form.date.value;
+            var data = {
+                name: name,
+                date: date
+            }
+            db.collection('one').doc(id).update(data);
+            var f = document.getElementById('updatefr');
+            f.style.display = 'none';
+            parent.children[0].textContent = data.name;
+            parent.children[1].textContent = data.date;
+        });
     });
 }
 
