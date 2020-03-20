@@ -1,6 +1,23 @@
 const nav = document.getElementById('blocknav');
 nav.style.display = 'none';
 
+//login
+const loginForm = document.getElementById('loginForm');
+loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const mail = loginForm['mailLogin'].value;
+    const password = loginForm['passwordLogin'].value;
+
+    auth.signInWithEmailAndPassword(mail, password).then(cred => {
+            $('#exampleModalCenter1').modal('hide');
+            loginForm.reset();
+        })
+        .catch((error) => {
+            var errorMessage = error.message;
+            loginForm.querySelector('.error').textContent = errorMessage;
+        });
+});
+
 //trace user status changed
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -9,24 +26,60 @@ auth.onAuthStateChanged(user => {
         };
 
         //user form email update
-        document.getElementById('oldmail').textContent = "Votre ancien email: " + user.email;
+        document.getElementById('oldmail').textContent = "Votre email: " + user.email;
         const formMail = document.getElementById('updatemail');
         formMail.addEventListener('submit', (event) => {
             event.preventDefault();
-        var data = formMail.mail.value;
-            user.updateEmail(data).then(function () {
-                var credential = firebase.auth.EmailAuthProvider.credential(
-                    user.email,
-                    userProvidedPassword //can't find user password
-                );  
-                user.reauthenticateWithCredential(credential).then(function() {
-                  }).catch(function(error) {
-                    console.log(error)
-                  });
-            }).catch((error) => {
-                console.log(error);
-            });
+            var data = formMail.mail.value;
+            if (user.email === data) {
+                var sameMail = document.getElementById('samemail');
+                sameMail.textContent = "L'email est le même ! Veuillez recommencer.";
+                setTimeout(function () {
+                    sameMail.textContent = "";
+                }, 2000);
+            } else {
+                user.updateEmail(data).then(function () {
+                    var credential = firebase.auth.EmailAuthProvider.credential(
+                        user.email,
+                        user.providerData[0].providerId
+                    );
+                    user.reauthenticateWithCredential(credential).then(function () {
+                        var userblock = document.getElementById('userblockup');
+                        userblock.style.display = 'none';
+                        formMail.reset();
+                    }).catch(function (error) {
+                        sameMail.textContent = "Veuillez vous reconnecter pour changer votre email vous êtes connecter depuis trop longtemps.";
+                    });
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
         });
+
+        //user update password
+        const formPass = document.getElementById('updatepassword');
+        formPass.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            var password = formPass.password.value;
+    
+                user.updatePassword(password).then(function () {
+                    var credential = firebase.auth.EmailAuthProvider.credential(
+                        user.email,
+                        user.providerData[0].providerId
+                    );
+                    user.reauthenticateWithCredential(credential).then(function () {
+                        var userblock = document.getElementById('userblockup');
+                        userblock.style.display = 'none';
+                        formMail.reset();
+                    }).catch(function (error) {
+                        document.getElementById('errorpass').textContent = "Veuillez vous reconnecter pour changer votre password vous êtes connecter depuis trop longtemps.";
+                    });
+                }).catch((error) => {
+                    //document.getElementById('errorpass').textContent = 'Votre mot de passe doit contenir minimum 6 charactères.'
+                });
+        });
+
 
         const blockB = document.getElementById('blockB');
         const blockH = document.getElementById('blockH');
@@ -76,19 +129,19 @@ auth.onAuthStateChanged(user => {
             f.style.display = 'none';
         });
 
-        function dateCall(dateStr){
-        var d = new Date();
-                    var date = d.getDate();
-                    var month = ("0" + (d.getMonth() + 1)).slice(-2); 
-                    var dateStr = month + "-" + date;
-                    
-                    return dateStr;
+        function dateCall(dateStr) {
+            var d = new Date();
+            var date = d.getDate();
+            var month = ("0" + (d.getMonth() + 1)).slice(-2);
+            var dateStr = month + "-" + date;
+
+            return dateStr;
         }
 
         //loop for read data
         db.collection('one').where('userid', '==', user.uid).orderBy('name').get().then((snapshot => {
             if (snapshot.docs.length >= 1) {
-                document.getElementById('countb').textContent = "Vous avez enregistré "+snapshot.docs.length+" anniversaires";
+                document.getElementById('countb').textContent = "Vous avez enregistré " + snapshot.docs.length + " anniversaires";
                 const dm = document.getElementById('divMore');
                 if (dm != null) {
                     dm.remove();
@@ -98,21 +151,18 @@ auth.onAuthStateChanged(user => {
                     renderBirthday(childSnapshot);
                     var tm = childSnapshot.cp.proto.fields.date.stringValue.slice(5);
 
-                    if(tm == dateCall()){
-                    var id = childSnapshot.id;
-                    var ob = document.getElementById(id);
-                    var ln = document.getElementById('listnamemodal');
-                    var li = document.createElement('li');
-                    ln.appendChild(li);
-                    li.setAttribute('class', 'listn');
+                    if (tm == dateCall()) {
+                        var id = childSnapshot.id;
+                        var ob = document.getElementById(id);
+                        var ln = document.getElementById('listnamemodal');
+                        var li = document.createElement('li');
+                        ln.appendChild(li);
+                        li.setAttribute('class', 'listn');
 
-                    li.textContent = childSnapshot.data().name;
-                    ob.style.background = '#FFD700';
-                    $('#modalbirthday').modal('show');
-                }
-                   else {
-                       console.log('er')
-                   }
+                        li.textContent = childSnapshot.data().name;
+                        ob.style.background = '#FFD700';
+                        $('#modalbirthday').modal('show');
+                    } else {}
                 });
             } else {
                 const createDm = document.createElement('div');
@@ -142,7 +192,6 @@ signupForm.addEventListener('submit', (event) => {
         })
         .catch((error) => {
             var errorMessage = error.message;
-            console.log();
             signupForm.querySelector('.error').textContent = errorMessage;
         });
 });
@@ -163,23 +212,6 @@ logout.addEventListener('click', (event) => {
     });
     var id = document.getElementById('uid');
     id.remove();
-});
-
-//login
-const loginForm = document.getElementById('loginForm');
-loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const mail = loginForm['mailLogin'].value;
-    const password = loginForm['passwordLogin'].value;
-
-    auth.signInWithEmailAndPassword(mail, password).then(cred => {
-            $('#exampleModalCenter1').modal('hide');
-            loginForm.reset();
-        })
-        .catch((error) => {
-            var errorMessage = error.message;
-            loginForm.querySelector('.error').textContent = errorMessage;
-        });
 });
 
 var userp = document.getElementById('userp');
