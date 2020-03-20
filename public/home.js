@@ -62,22 +62,22 @@ auth.onAuthStateChanged(user => {
             event.preventDefault();
 
             var password = formPass.password.value;
-    
-                user.updatePassword(password).then(function () {
-                    var credential = firebase.auth.EmailAuthProvider.credential(
-                        user.email,
-                        user.providerData[0].providerId
-                    );
-                    user.reauthenticateWithCredential(credential).then(function () {
-                        var userblock = document.getElementById('userblockup');
-                        userblock.style.display = 'none';
-                        formMail.reset();
-                    }).catch(function (error) {
-                        document.getElementById('errorpass').textContent = "Veuillez vous reconnecter pour changer votre password vous êtes connecter depuis trop longtemps.";
-                    });
-                }).catch((error) => {
-                    //document.getElementById('errorpass').textContent = 'Votre mot de passe doit contenir minimum 6 charactères.'
+
+            user.updatePassword(password).then(function () {
+                var credential = firebase.auth.EmailAuthProvider.credential(
+                    user.email,
+                    user.providerData[0].providerId
+                );
+                user.reauthenticateWithCredential(credential).then(function () {
+                    var userblock = document.getElementById('userblockup');
+                    userblock.style.display = 'none';
+                    formMail.reset();
+                }).catch(function (error) {
+                    document.getElementById('errorpass').textContent = "Veuillez vous reconnecter pour changer votre password vous êtes connecter depuis trop longtemps.";
                 });
+            }).catch((error) => {
+                //document.getElementById('errorpass').textContent = 'Votre mot de passe doit contenir minimum 6 charactères.'
+            });
         });
 
 
@@ -99,6 +99,17 @@ auth.onAuthStateChanged(user => {
 
         // form for send data
         fb.addEventListener("submit", (event) => {
+            var ul = document.getElementById('list');
+            var li = document.createElement('li');
+            var pname = document.createElement('p');
+            var pdate = document.createElement('p');
+            var del = document.createElement('div');
+            var up = document.createElement('div');
+            var div = document.createElement('div');
+            div.setAttribute('class', 'blockcrud');
+            del.setAttribute('class', 'delete');
+            up.setAttribute('class', 'update');
+
             event.preventDefault();
             var id = Math.random();
             var data = {
@@ -111,6 +122,59 @@ auth.onAuthStateChanged(user => {
             db.collection('one').add(data);
             fbdiv.style.display = 'none';
             birth.style.display = 'block';
+
+            pname.textContent = data.name;
+            pdate.textContent = data.date;
+            li.setAttribute('id', id);
+            li.appendChild(pname);
+            li.appendChild(pdate);
+            li.appendChild(div);
+            ul.appendChild(li);
+            div.appendChild(del);
+            div.appendChild(up);
+
+            del.innerHTML = "<i class='fas fa-trash-alt' data-toggle='tooltip' data-placement='top' title='cliquez pour supprimer un anniversaire'></i>";
+            up.innerHTML = '<i class="fas fa-edit" data-toggle"tooltip" data-placement="top" title="cliquez pour modifier un anniversaire"></i>';
+
+            //event to delete data
+            del.addEventListener("click", (event) => {
+                event.stopPropagation();
+                var id = event.target.parentElement.parentElement.parentElement.getAttribute('id');
+                db.collection('one').doc(id).delete();
+                event.target.parentElement.parentElement.parentElement.remove();
+            });
+
+            //event to replace data in form
+    up.addEventListener('click', (event) => {
+        event.stopPropagation();
+        var id = event.target.parentElement.parentElement.parentElement.getAttribute('id');
+        var parent = event.target.parentElement.parentElement.parentElement;
+        var input = document.getElementById('hid1');
+        fbdiv.style.display = 'none';
+        birth.style.display = 'block';
+        upd.style.display = 'block';
+        input.setAttribute('data-id', id);
+        form.name.value = parent.children[0].textContent;
+        form.date.value = parent.children[1].textContent;
+        
+        //form for update data
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            var name = form.name.value;
+            var date = form.date.value;
+            var data = {
+                name: name,
+                date: date
+            }
+            db.collection('one').doc(id).update(data);
+            var f = document.getElementById('updatefr');
+            f.style.display = 'none';
+            parent.children[0].textContent = data.name;
+            parent.children[1].textContent = data.date;
+        });
+    });
+
         });
 
         //form for update data
